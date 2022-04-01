@@ -133,16 +133,14 @@ contract DBChainLib {
     *     Body : 查询器实现 base64编码
     *   Description : orm query
     *   查询器示例：
-    *       function relationQuery(tableName, queryString)
+    *       function customQuery(tableName, queryString)
     *           queryTable = jsonStringToMap(queryString)
-    *           author = findRowsBy("author",queryTable)
-    *           book = author:book()
-    *           oneBook = book:first()
-    *           return oneBook:data()
+    *           queryData = findRowsBy(tableName,queryTable)
+    *           return queryData:data()
     *       end
     *       编码后
     *    Description ：b3JtIHF1ZXJ5
-    *    Body ：ZnVuY3Rpb24gcmVsYXRpb25RdWVyeSh0YWJsZU5hbWUsIHF1ZXJ5U3RyaW5nKQogICAgcXVlcnlUYWJsZSA9IGpzb25TdHJpbmdUb01hcChxdWVyeVN0cmluZykKICAgIGF1dGhvciA9IGZpbmRSb3dzQnkoImF1dGhvciIscXVlcnlUYWJsZSkgCiAgICBib29rID0gYXV0aG9yOmJvb2soKSAKICAgIG9uZUJvb2sgPSBib29rOmZpcnN0KCkgCiAgICByZXR1cm4gb25lQm9vazpkYXRhKCkJCmVuZA==
+    *    Body ：ZnVuY3Rpb24gY3VzdG9tUXVlcnkodGFibGVOYW1lLCBxdWVyeVN0cmluZykKICAgcXVlcnlUYWJsZSA9IGpzb25TdHJpbmdUb01hcChxdWVyeVN0cmluZykKICAgcXVlcnlEYXRhID0gZmluZFJvd3NCeSh0YWJsZU5hbWUscXVlcnlUYWJsZSkKICAgcmV0dXJuIHF1ZXJ5RGF0YTpkYXRhKCkKZW5k
     ***************************************************************************/
     function add_querier(string memory appCode, string memory QuerierName, string memory Description, string memory Body) public returns (bytes32){
         string[] memory params = new string[](4);
@@ -602,6 +600,333 @@ contract DBChainLib {
         params[0] = appCode;
         params[1] = permissionRequired;
         return params.set_database_permission();
+    }
+
+    /*********************************************************************
+    *
+    *
+    *     查询接口
+    *
+    *
+    *********************************************************************/
+
+    /***************************************************************************
+    *  函数功能 ： 查询自己的数据库列表
+    *  函数说明 ：
+    *  参数说明 ： src 包含1个参数
+    *     accessToken :
+    ***************************************************************************/
+    function query_own_application(string memory accessToken) public view returns(string memory) {
+        string[] memory params = new string[](1);
+        params[0] = accessToken;
+        return params.query_own_application();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库详情
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_application_info(string memory accessToken, string memory appCode) public view returns(string memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        return params.query_application_info();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库所有表
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_application_tables(string memory accessToken, string memory appCode) public view returns(string memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        return params.query_application_tables();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库表详情
+    *  函数说明 ：
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    ***************************************************************************/
+    function query_application_table_info(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        return params.query_application_table_info();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库表属性
+    *  函数说明 ：
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    ***************************************************************************/
+    function query_application_table_option(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        return params.query_application_table_option();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库注册函数
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_application_functions(string memory accessToken, string memory appCode) public view returns(string memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        return params.query_application_functions();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库注册函数详情
+    *  函数说明 ：
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     functionName : 函数名称
+    ***************************************************************************/
+    function query_application_function_info(string memory accessToken, string memory appCode, string memory functionName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = functionName;
+        return params.query_application_function_info();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库所有自定义查询器
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_application_custom_queriers(string memory accessToken, string memory appCode) public view returns(string memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        return params.query_application_custom_queriers();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库自定义查询器详情
+    *  函数说明 ：
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     querierName : 查询器名称
+    ***************************************************************************/
+    function query_application_custom_querier_info(string memory accessToken, string memory appCode, string memory querierName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = querierName;
+        return params.query_application_custom_querier_info();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库自定义查询器调用
+    *  函数说明 ：
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     querierName : 查询器名称
+    *     querierParams  : 查询器参数
+    *     假设已经注册了自定义查询器如下：
+    *       function customQuery(tableName, queryString)
+    *           queryTable = jsonStringToMap(queryString)
+    *           queryData = findRowsBy(tableName,queryTable)
+    *           return queryData:data()
+    *       end
+    *       调用时 ： querierName 为 customQuery
+    *       参数为 ： ["worker","{\"name\":\"boa\"}"] base64编码后 ： WyJ3b3JrZXIiLCJ7XCJuYW1lXCI6XCJib2FcIn0iXQ==
+    ***************************************************************************/
+    function query_call_custom_querier(string memory accessToken, string memory appCode, string memory querierName, string memory querierParams) public view returns(string memory) {
+        string[] memory params = new string[](4);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = querierName;
+        params[3] = querierParams;
+        return params.query_call_custom_querier();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询字段属性
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    *     field  : 字段名
+    ***************************************************************************/
+    function query_field_option(string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string memory) {
+        string[] memory params = new string[](4);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        params[3] = field;
+        return params.query_field_option();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询字段类型
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    *     field  : 字段名
+    ***************************************************************************/
+    function query_field_data_type(string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string memory) {
+        string[] memory params = new string[](4);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        params[3] = field;
+        return params.query_field_data_type();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 根据id 查询一行数据
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    *     id  : id
+    ***************************************************************************/
+    function query_row(string memory accessToken, string memory appCode, string memory tableName, string memory id) public view returns(string memory) {
+        string[] memory params = new string[](4);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        params[3] = id;
+        return params.query_row();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 根据字段 查询所有id
+    *  参数说明 ： src 包含5个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    *     field  : 字段名
+    *     value  : 值
+    ***************************************************************************/
+    function query_ids(string memory accessToken, string memory appCode, string memory tableName, string memory field, string memory value) public view returns(string memory) {
+        string[] memory params = new string[](5);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        params[3] = field;
+        params[4] = value;
+        return params.query_ids();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  查询所有id
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    ***************************************************************************/
+    function query_all_ids(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        return params.query_all_ids();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  查询所有库分组
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_all_groups(string memory accessToken, string memory appCode) public view returns(string memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        return params.query_all_groups();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  查询库分组详情
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     groupName : 组名
+    ***************************************************************************/
+    function query_group_info(string memory accessToken, string memory appCode, string memory groupName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = groupName;
+        return params.query_group_info();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  查询表索引
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    ***************************************************************************/
+    function query_index(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        return params.query_index();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  标准查询器
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     querierObj : 表名
+    *     querierObj 示例：
+    *       查询条件 ：[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]
+    *       base64编码 ： W3sibWV0aG9kIjoidGFibGUiLCJ0YWJsZSI6InN0dWRlbnQifSx7Im1ldGhvZCI6IndoZXJlIiwiZmllbGQiOiJpZCIsInZhbHVlIjoiMSIsIm9wZXJhdG9yIjoiPSJ9XQ==
+    ***************************************************************************/
+    function query_std_querier(string memory accessToken, string memory appCode, string memory querierObj) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = querierObj;
+        return params.query_std_querier();
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  查询表关联
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     tableName : 表名
+    ***************************************************************************/
+    function query_table_association(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = tableName;
+        return params.query_table_association();
     }
 
 }
