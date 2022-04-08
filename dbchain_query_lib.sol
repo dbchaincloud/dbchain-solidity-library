@@ -17,8 +17,8 @@ library dbchain_query {
     *  参数说明 ： src 包含1个参数
     *     accessToken :
     ***************************************************************************/
-    function query_own_application(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 1, "80");
+    function query_own_application(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 1, "80");
         return res;
     }
 
@@ -29,8 +29,8 @@ library dbchain_query {
     *     accessToken :
     *     appCode :
     ***************************************************************************/
-    function query_application_info(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 2, "81");
+    function query_application_info(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "81");
         return res;
     }
 
@@ -41,8 +41,8 @@ library dbchain_query {
     *     accessToken :
     *     appCode :
     ***************************************************************************/
-    function query_application_tables(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 2, "82");
+    function query_application_tables(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "82");
         return res;
     }
 
@@ -54,8 +54,8 @@ library dbchain_query {
     *     appCode :
     *     tableName : 表名
     ***************************************************************************/
-    function query_application_table_info(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "83");
+    function query_application_table_info(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "83");
         return res;
     }
 
@@ -67,8 +67,8 @@ library dbchain_query {
     *     appCode :
     *     tableName : 表名
     ***************************************************************************/
-    function query_application_table_option(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "84");
+    function query_application_table_option(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "84");
         return res;
     }
 
@@ -79,8 +79,8 @@ library dbchain_query {
     *     accessToken :
     *     appCode :
     ***************************************************************************/
-    function query_application_functions(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 2, "85");
+    function query_application_functions(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "85");
         return res;
     }
 
@@ -92,8 +92,8 @@ library dbchain_query {
     *     appCode :
     *     functionName : 函数名称
     ***************************************************************************/
-    function query_application_function_info(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "86");
+    function query_application_function_info(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "86");
         return res;
     }
 
@@ -104,8 +104,8 @@ library dbchain_query {
     *     accessToken :
     *     appCode :
     ***************************************************************************/
-    function query_application_custom_queriers(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 2, "87");
+    function query_application_custom_queriers(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "87");
         return res;
     }
 
@@ -117,8 +117,8 @@ library dbchain_query {
     *     appCode :
     *     querierName : 查询器名称
     ***************************************************************************/
-    function query_application_custom_querier_info(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "88");
+    function query_application_custom_querier_info(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "88");
         return res;
     }
 
@@ -132,8 +132,8 @@ library dbchain_query {
     *     params  : 查询器参数
     *     TODO 参数示例
     ***************************************************************************/
-    function query_call_custom_querier(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 4, "89");
+    function query_call_custom_querier(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 4, "89");
         return res;
     }
 
@@ -145,8 +145,8 @@ library dbchain_query {
     *     tableName : 表名
     *     field  : 字段名
     ***************************************************************************/
-    function query_field_option(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 4, "8A");
+    function query_field_option(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 4, "8A");
         return res;
     }
 
@@ -158,8 +158,8 @@ library dbchain_query {
     *     tableName : 表名
     *     field  : 字段名
     ***************************************************************************/
-    function query_field_data_type(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 4, "8B");
+    function query_field_data_type(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 4, "8B");
         return res;
     }
 
@@ -171,8 +171,8 @@ library dbchain_query {
     *     tableName : 表名
     *     id  : id
     ***************************************************************************/
-    function query_row(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 4, "8C");
+    function query_row(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 4, "8C");
         return res;
     }
 
@@ -185,8 +185,8 @@ library dbchain_query {
     *     field  : 字段名
     *     value  : 值
     ***************************************************************************/
-    function query_ids(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 5, "8D");
+    function query_ids(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 5, "8D");
         return res;
     }
 
@@ -197,8 +197,8 @@ library dbchain_query {
     *     appCode :
     *     tableName : 表名
     ***************************************************************************/
-    function query_all_ids(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "8E");
+    function query_all_ids(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "8E");
         return res;
     }
 
@@ -208,8 +208,8 @@ library dbchain_query {
     *     accessToken :
     *     appCode :
     ***************************************************************************/
-    function query_all_groups(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 2, "8F");
+    function query_all_groups(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "8F");
         return res;
     }
 
@@ -220,8 +220,8 @@ library dbchain_query {
     *     appCode :
     *     groupName : 组名
     ***************************************************************************/
-    function query_group_info(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "90");
+    function query_group_info(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "90");
         return res;
     }
 
@@ -232,8 +232,8 @@ library dbchain_query {
     *     appCode :
     *     tableName : 表名
     ***************************************************************************/
-    function query_index(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "91");
+    function query_index(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "91");
         return res;
     }
 
@@ -247,8 +247,8 @@ library dbchain_query {
     *       查询条件 ：[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]
     *       base64编码 ： W3sibWV0aG9kIjoidGFibGUiLCJ0YWJsZSI6InN0dWRlbnQifSx7Im1ldGhvZCI6IndoZXJlIiwiZmllbGQiOiJpZCIsInZhbHVlIjoiMSIsIm9wZXJhdG9yIjoiPSJ9XQ==
     ***************************************************************************/
-    function query_std_querier(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "92");
+    function query_std_querier(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "92");
         return res;
     }
 
@@ -259,15 +259,15 @@ library dbchain_query {
     *     appCode :
     *     tableName : 表名
     ***************************************************************************/
-    function query_table_association(string[] memory src) public view returns(string memory) {
-        string memory res = execute_query(src, 3, "93");
+    function query_table_association(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "93");
         return res;
     }
 
 
 
 
-    function execute_query(string[] memory src, uint256 length, string memory methodCode) internal view returns (string memory) {
+    function execute_query(string[] memory src, uint256 length, string memory methodCode) internal view returns (bytes memory) {
         require (src.length == length);
         string memory method = methodCode;
         string[] memory params = new string[](length + 1);
@@ -289,6 +289,6 @@ library dbchain_query {
                 invalid()
             }
         }
-        return string(h);
+        return h;
     }
 }
