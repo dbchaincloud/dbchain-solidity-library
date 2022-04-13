@@ -35,6 +35,19 @@ library dbchain_query {
     }
 
     /***************************************************************************
+    *  函数功能 ： 查询数据库绑定的智能合约
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    ***************************************************************************/
+    function query_application_bind_status(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 2, "94");
+        return res;
+    }
+
+
+    /***************************************************************************
     *  函数功能 ： 查询数据库所有表
     *  函数说明 ：
     *  参数说明 ： src 包含2个参数

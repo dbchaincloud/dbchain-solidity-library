@@ -54,6 +54,20 @@ contract DBChainLib {
     }
 
     /***************************************************************************
+    *  函数功能 ： 数据库智能合约绑定
+    *  函数说明 ： 把数据库与智能合约绑定，绑定后的数据库只能通过智能合约写入或者修改数据
+    *  参数说明 ： src 包含2个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     contractAddr : 智能合约地址
+    ***************************************************************************/
+    function contract_db_binding(string memory  appCode, string memory contractAddr) public returns (bytes32){
+        string[] memory params = new string[](2);
+        params[0] = appCode;
+        params[1] = contractAddr;
+        return params.contract_db_binding();
+    }
+
+    /***************************************************************************
     *  函数功能 ： 修改数据库使用者, 增加或者删除
     *  函数说明 ： 当创建数据库时将permissionRequired 设为true 时, 需要把其他用户添加到user组, 用户才有读写权限
     *  参数说明 ： src 包含3个参数
@@ -322,7 +336,7 @@ contract DBChainLib {
     *     appCode : 数据库code, 创建数据库时唯一的code
     *     tableName : 当前表名
     *     action : add 或者 drop
-    *     option : 有三个值 public(设置表公开)、writable-by(设置哪个组可写)、payment(记录支付)
+    *     option : 有三个值 public(设置表公开)、writable-by(设置哪个组可写)、payment(记录支付)、updatable(设置表为可修改)
     ***************************************************************************/
     function modify_option(string memory appCode, string memory tableName, string memory action, string memory option) public returns (bytes32){
         string[] memory params = new string[](4);
@@ -501,6 +515,26 @@ contract DBChainLib {
     }
 
     /***************************************************************************
+    *  函数功能 ： 更新数据
+    *  函数说明 ： 要更新表数据，需要给表添加updatable属性，即调用modify_option添加updatable属性
+    *  参数说明 ： src 包含4个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     id     : 需要修改数据的id
+    *     fields : 需要更新的值
+    *  fields 示例 :
+    *  插入一条数据 name字段的值为bob, 先用json编码 {"name":"bob"}，然后base64得到 nGZzMFdQnQegHuSBMVv，最后的传参就是nGZzMFdQnQegHuSBMVv
+    ***************************************************************************/
+    function update_row(string memory appCode, string memory tableName, string memory id, string memory fields) public returns (bytes32){
+        string[] memory params = new string[](4);
+        params[0] = appCode;
+        params[1] = tableName;
+        params[2] = id;
+        params[3] = fields;
+        return params.update_row();
+    }
+
+    /***************************************************************************
     *  函数功能 ： 数据冻结
     *  函数说明 ： 冻结的数据不能根据字段查询，但是可以根据id查询
     *  参数说明 ： src 包含3个参数
@@ -655,6 +689,27 @@ contract DBChainLib {
             appStatus[i] = string(ls[i].toBytes());
         }
         return appStatus;
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库绑定情况
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     accessToken :
+    *     appCode :
+    *     返回值是数据库上绑定的所有合约 rlp编码的 数组
+    ***************************************************************************/
+    function query_application_bind_status(string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](2);
+        params[0] = accessToken;
+        params[1] = appCode;
+        bytes memory rlpBytes =  params.query_application_bind_status();
+        RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
+        string[] memory appBindStatus = new string[](ls.length);
+        for (uint i = 0; i < ls.length; i++) {
+            appBindStatus[i] = string(ls[i].toBytes());
+        }
+        return appBindStatus;
     }
 
     /***************************************************************************

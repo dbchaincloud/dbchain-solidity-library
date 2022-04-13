@@ -40,6 +40,17 @@ library  dbchain {
         return res[0];
     }
 
+    /**************************************************************************
+    *  函数功能 ： 数据库智能合约绑定
+    *  函数说明 ： 把数据库与智能合约绑定，绑定后的数据库只能通过智能合约写入或者修改数据
+    *  参数说明 ： src 包含2个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     contractAddr : 智能合约地址
+    **************************************************************************/
+    function contract_db_binding(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 2, "2A");
+        return res[0];
+    }
     /***************************************************************************
     *  函数功能 ： 修改数据库使用者, 增加或者删除
     *  函数说明 ： 当创建数据库时将permissionRequired 设为true 时, 需要把其他用户添加到user组, 用户才有读写权限
@@ -367,6 +378,20 @@ library  dbchain {
     ***************************************************************************/
     function insert_row(string[] memory  src) public returns (bytes32){
         bytes32[1] memory res = execute_tx(src, 3, "1F");
+        return res[0];
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 更新数据
+    *  函数说明 ：
+    *  参数说明 ： src 包含4个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     id     : 需要修改数据的id
+    *     fields : 需要更新的值
+    ***************************************************************************/
+    function update_row(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 4, "2B");
         return res[0];
     }
 
