@@ -51,6 +51,19 @@ library  dbchain {
         bytes32[1] memory res = execute_tx(src, 2, "2A");
         return res[0];
     }
+
+    /**************************************************************************
+    *  函数功能 ： 数据库智能合约解绑
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     contractAddr : 智能合约地址
+    **************************************************************************/
+    function contract_db_unbinding(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 2, "2C");
+        return res[0];
+    }
+
     /***************************************************************************
     *  函数功能 ： 修改数据库使用者, 增加或者删除
     *  函数说明 ： 当创建数据库时将permissionRequired 设为true 时, 需要把其他用户添加到user组, 用户才有读写权限

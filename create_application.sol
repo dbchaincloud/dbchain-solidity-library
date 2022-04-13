@@ -68,6 +68,20 @@ contract DBChainLib {
     }
 
     /***************************************************************************
+    *  函数功能 ： 数据库智能合约解绑定
+    *  函数说明 ：
+    *  参数说明 ： src 包含2个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     contractAddr : 智能合约地址
+    ***************************************************************************/
+    function contract_db_unbinding(string memory  appCode, string memory contractAddr) public returns (bytes32){
+        string[] memory params = new string[](2);
+        params[0] = appCode;
+        params[1] = contractAddr;
+        return params.contract_db_unbinding();
+    }
+
+    /***************************************************************************
     *  函数功能 ： 修改数据库使用者, 增加或者删除
     *  函数说明 ： 当创建数据库时将permissionRequired 设为true 时, 需要把其他用户添加到user组, 用户才有读写权限
     *  参数说明 ： src 包含3个参数
