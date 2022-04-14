@@ -150,6 +150,23 @@ contract DBChainLib {
         return params.call_function();
     }
 
+    /***************************************************************************
+   *  函数功能 ： 数据库函数调用
+   *  函数说明 ： 功能与call_function 一样，区别在于argument没有base64编码
+   *  参数说明 ： src 包含3个参数
+   *     appCode : 数据库code, 创建数据库时唯一的code
+   *     functionName  : 调用的函数名
+   *     argument : 调用的函数需要的参数
+   ***************************************************************************/
+    function call_function_without_base64(string memory appCode, string memory functionName) public returns (bytes32){
+        string[] memory params = new string[](3);
+        params[0] = appCode;
+        params[1] = functionName;
+        string memory argument = '["worker","{\\\"name\\\":\\\"boa\\\"}"]';
+        params[2] = argument;
+        return params.call_function_without_base64();
+    }
+
 
     /***************************************************************************
     *  函数功能 ： 添加数据库查询器
@@ -523,6 +540,25 @@ contract DBChainLib {
     }
 
     /***************************************************************************
+    *  函数功能 ： 插入数据
+    *  函数说明 ： 方便在函数内部调用插入函数
+    *  参数说明 ： src 包含3个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     fields : 值
+    *  fields 示例 :
+    *  插入一条数据 name字段的值为bob, 先用json编码 {"name":"bob"}
+    ***************************************************************************/
+    function insert_row_without_base64(string memory appCode, string memory tableName) public returns (bytes32){
+        string[] memory params = new string[](3);
+        params[0] = appCode;
+        params[1] = tableName;
+        string memory fields = '{"name":"bob"}';
+        params[2] = fields;
+        return params.insert_row_without_base64();
+    }
+
+    /***************************************************************************
     *  函数功能 ： 更新数据
     *  函数说明 ： 要更新表数据，需要给表添加updatable属性，即调用modify_option添加updatable属性
     *  参数说明 ： src 包含4个参数
@@ -540,6 +576,27 @@ contract DBChainLib {
         params[2] = id;
         params[3] = fields;
         return params.update_row();
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 更新数据
+    *  函数说明 ： 功能与insert_row一样，区别在于fields未采用base64编码,方便在函数内部调用
+    *  参数说明 ： src 包含4个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     id     : 需要修改数据的id
+    *     fields : 需要更新的值
+    *  fields 示例 :
+    *  插入一条数据 name字段的值为bob, 先用json编码 {"name":"bob"}
+    ***************************************************************************/
+    function update_row_without_base64(string memory appCode, string memory tableName, string memory id) public returns (bytes32){
+        string[] memory params = new string[](4);
+        params[0] = appCode;
+        params[1] = tableName;
+        params[2] = id;
+        string memory fields = '{"name":"bob"}';
+        params[3] = fields;
+        return params.update_row_without_base64();
     }
 
     /***************************************************************************

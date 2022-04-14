@@ -107,6 +107,20 @@ library  dbchain {
     }
 
     /***************************************************************************
+    *  函数功能 ： 数据库函数调用
+    *  函数说明 ： 此函数与call_function功能一样，区别在于argument没有base64编码
+    *  参数说明 ： src 包含3个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     functionName  : 调用的函数名
+    *     argument : 调用的函数需要的参数
+    *     TODO argument 参数说明
+    ***************************************************************************/
+    function call_function_without_base64(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 3, "30");
+        return res[0];
+    }
+
+    /***************************************************************************
     *  函数功能 ： 数据库函数删除
     *  函数说明 ： 删除添加在数据上的函数
     *  参数说明 ： src 包含2个参数
@@ -395,6 +409,20 @@ library  dbchain {
     }
 
     /***************************************************************************
+    *  函数功能 ： 插入数据
+    *  函数说明 ：
+    *  参数说明 ： src 包含3个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     fields : 值
+    *   TODO fields 示例
+    ***************************************************************************/
+    function insert_row_without_base64(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 3, "2D");
+        return res[0];
+    }
+
+    /***************************************************************************
     *  函数功能 ： 更新数据
     *  函数说明 ：
     *  参数说明 ： src 包含4个参数
@@ -405,6 +433,20 @@ library  dbchain {
     ***************************************************************************/
     function update_row(string[] memory  src) public returns (bytes32){
         bytes32[1] memory res = execute_tx(src, 4, "2B");
+        return res[0];
+    }
+
+    /***************************************************************************
+    *  函数功能 ： 更新数据
+    *  函数说明 ： 参数未使用base64编码
+    *  参数说明 ： src 包含4个参数
+    *     appCode : 数据库code, 创建数据库时唯一的code
+    *     tableName : 当前表名
+    *     id     : 需要修改数据的id
+    *     fields : 需要更新的值
+    ***************************************************************************/
+    function update_row_without_base64(string[] memory  src) public returns (bytes32){
+        bytes32[1] memory res = execute_tx(src, 4, "2F");
         return res[0];
     }
 
