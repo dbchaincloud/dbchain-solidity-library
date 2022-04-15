@@ -22,13 +22,15 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询自己的数据库列表
     *  函数说明 ：
-    *  参数说明 ： src 包含1个参数
+    *  参数说明 ： src 包含2个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     返回值为rpl 编码的数组
     ***************************************************************************/
-    function query_own_application(string memory accessToken) public view returns(string[] memory) {
-        string[] memory params = new string[](1);
-        params[0] = accessToken;
+    function query_own_application(string memory encode, string memory accessToken) public view returns(string[] memory) {
+        string[] memory params = new string[](2);
+        params[0] = encode;
+        params[1] = accessToken;
         bytes memory rlpBytes =  params.query_own_application();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory apps = new string[](ls.length);
@@ -41,16 +43,18 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库详情
     *  函数说明 ：
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值是 rlp编码的 数组
     *     值依次为 AppCode, AppId, DataFrozen, Description, Expiration, Name, Owner, PermissionRequired, SchemaFrozen
     ***************************************************************************/
-    function query_application_info(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_application_info(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_application_info();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory appStatus = new string[](ls.length);
@@ -63,15 +67,17 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库绑定情况
     *  函数说明 ：
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值是数据库上绑定的所有合约 rlp编码的 数组
     ***************************************************************************/
-    function query_application_bind_status(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_application_bind_status(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_application_bind_status();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory appBindStatus = new string[](ls.length);
@@ -84,15 +90,17 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库所有表
     *  函数说明 ：
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值为rpl 编码的数组
     ***************************************************************************/
-    function query_application_tables(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_application_tables(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_application_tables();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory tables = new string[](ls.length);
@@ -105,18 +113,20 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库表详情
     *  函数说明 ：
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
     *     返回值为rpl 编码的数组
     *     返回值依次为 Fields(数组)，Filter，Memo，Memos(数组)，Name，Owner，Trigger
     ***************************************************************************/
-    function query_application_table_info(string memory accessToken, string memory appCode, string memory tableName) public view {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
+    function query_application_table_info(string memory encode, string memory accessToken, string memory appCode, string memory tableName) public view {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
         bytes memory rlpBytes =  params.query_application_table_info();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory tables = new string[](ls.length);
@@ -132,17 +142,19 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库表属性
     *  函数说明 ：
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
     *     返回值为rpl 编码的数组
     ***************************************************************************/
-    function query_application_table_option(string memory accessToken, string memory appCode, string memory tableName) public view returns(string[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
+    function query_application_table_option(string memory encode, string memory accessToken, string memory appCode, string memory tableName) public view returns(string[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
         bytes memory rlpBytes =  params.query_application_table_option();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory options = new string[](ls.length);
@@ -155,15 +167,17 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库注册函数
     *  函数说明 ：
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值为rpl 编码的数组
     ***************************************************************************/
-    function query_application_functions(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_application_functions(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_application_functions();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory functions = new string[](ls.length);
@@ -176,18 +190,20 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库注册函数详情
     *  函数说明 ：
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     functionName : 函数名称
     *     返回值为rpl 编码的字符串数组
     *     返回值依次为：Body，Description，Name，Owner
     ***************************************************************************/
-    function query_application_function_info(string memory accessToken, string memory appCode, string memory functionName) public view returns(string[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = functionName;
+    function query_application_function_info(string memory encode, string memory accessToken, string memory appCode, string memory functionName) public view returns(string[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = functionName;
         bytes memory rlpBytes =  params.query_application_function_info();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory functionInfo = new string[](ls.length);
@@ -200,15 +216,17 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库所有自定义查询器
     *  函数说明 ：
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值为rpl 编码的字符串数组
     ***************************************************************************/
-    function query_application_custom_queriers(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_application_custom_queriers(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_application_custom_queriers();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory queriers = new string[](ls.length);
@@ -221,18 +239,20 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库自定义查询器详情
     *  函数说明 ：
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     querierName : 查询器名称
     *     返回值为rpl 编码的字符串数组
     *     返回值依次为：Body，Description，Name，Owner
     ***************************************************************************/
-    function query_application_custom_querier_info(string memory accessToken, string memory appCode, string memory querierName) public view returns(string[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = querierName;
+    function query_application_custom_querier_info(string memory encode, string memory accessToken, string memory appCode, string memory querierName) public view returns(string[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = querierName;
         bytes memory rlpBytes =  params.query_application_custom_querier_info();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory querierInfo = new string[](ls.length);
@@ -245,7 +265,8 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库自定义查询器调用
     *  函数说明 ：
-    *  参数说明 ： src 包含4个参数
+    *  参数说明 ： src 包含5个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     querierName : 查询器名称
@@ -272,13 +293,14 @@ contract DBChainQueryLib {
         string txhash;
     }
 
-    function query_call_custom_querier(string memory accessToken, string memory appCode, string memory querierName, string memory querierParams) public view returns(string memory, string memory){
-        string[] memory params = new string[](4);
+    function query_call_custom_querier(string memory encode, string memory accessToken, string memory appCode, string memory querierName, string memory querierParams) public view returns(string memory, string memory){
+        string[] memory params = new string[](5);
 
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = querierName;
-        params[3] = querierParams;
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = querierName;
+        params[4] = querierParams;
         bytes memory rlpBytes =  params.query_call_custom_querier();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         queryTest[] memory values = new queryTest[] (ls.length);
@@ -302,7 +324,8 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ： 查询数据库自定义查询器调用
     *  函数说明 ： 功能与query_call_custom_querier一样，区别是querierParams没有base64编码
-    *  参数说明 ： src 包含4个参数
+    *  参数说明 ： src 包含5个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     querierName : 查询器名称
@@ -320,14 +343,15 @@ contract DBChainQueryLib {
     *     因为每张表都有4个系统字段， id, created_at, created_by, txhash， 如果您建的表有两个字段：name，age. 那么返回数据的会把字段进行升序排序
     *   所以返回后的值的顺序依次为：age,created_at, created_by,id,name, txhash.
     ***************************************************************************/
-    function query_call_custom_querier_without_base64(string memory accessToken, string memory appCode, string memory querierName) public view returns(string memory, string memory){
-        string[] memory params = new string[](4);
+    function query_call_custom_querier_without_base64(string memory encode, string memory accessToken, string memory appCode, string memory querierName) public view returns(string memory, string memory){
+        string[] memory params = new string[](5);
 
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = querierName;
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = querierName;
         string memory querierParams = '["worker","{\\\"name\\\":\\\"boa\\\"}"] ';
-        params[3] = querierParams;
+        params[4] = querierParams;
         bytes memory rlpBytes =  params.query_call_custom_querier_without_base64();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         queryTest[] memory values = new queryTest[] (ls.length);
@@ -349,18 +373,20 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ： 查询字段属性
-    *  参数说明 ： src 包含4个参数
+    *  参数说明 ： src 包含5个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
     *     返回值为rpl 编码的字符串数组
     ***************************************************************************/
-    function query_field_option(string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string[] memory) {
-        string[] memory params = new string[](4);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
-        params[3] = field;
+    function query_field_option(string memory encode, string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string[] memory) {
+        string[] memory params = new string[](5);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
+        params[4] = field;
         bytes memory rlpBytes =  params.query_field_option();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory options = new string[](ls.length);
@@ -372,18 +398,20 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ： 查询字段类型
-    *  参数说明 ： src 包含4个参数
+    *  参数说明 ： src 包含5个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
     *     返回值为rpl 编码的字符串
     ***************************************************************************/
-    function query_field_data_type(string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string memory) {
-        string[] memory params = new string[](4);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
-        params[3] = field;
+    function query_field_data_type(string memory encode, string memory accessToken, string memory appCode, string memory tableName, string memory field) public view returns(string memory) {
+        string[] memory params = new string[](5);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
+        params[4] = field;
         bytes memory rlpBytes =  params.query_field_data_type();
         RLPReader.RLPItem memory ls = rlpBytes.toRlpItem();
         string memory dataType = string(ls.toBytes());
@@ -392,7 +420,8 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ： 根据id 查询一行数据
-    *  参数说明 ： src 包含4个参数
+    *  参数说明 ： src 包含5个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
@@ -413,12 +442,13 @@ contract DBChainQueryLib {
         string txhash;
     }
 
-    function query_row(string memory accessToken, string memory appCode, string memory tableName, string memory id) public view returns(string memory,string memory,string memory,string memory,string memory,string memory) {
-        string[] memory params = new string[](4);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
-        params[3] = id;
+    function query_row(string memory encode, string memory accessToken, string memory appCode, string memory tableName, string memory id) public view returns(string memory,string memory,string memory,string memory,string memory,string memory) {
+        string[] memory params = new string[](5);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
+        params[4] = id;
         bytes memory rlpBytes =  params.query_row();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList(); // must convert to an rlpItem first!
 
@@ -435,7 +465,8 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ： 根据字段 查询所有id
-    *  参数说明 ： src 包含5个参数
+    *  参数说明 ： src 包含6个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
@@ -443,13 +474,14 @@ contract DBChainQueryLib {
     *     value  : 值
     *     返回值为rpl 编码的uint数组, 类型为uint[]
     ***************************************************************************/
-    function query_ids(string memory accessToken, string memory appCode, string memory tableName, string memory field, string memory value) public view returns(uint[] memory) {
-        string[] memory params = new string[](5);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
-        params[3] = field;
-        params[4] = value;
+    function query_ids(string memory encode, string memory accessToken, string memory appCode, string memory tableName, string memory field, string memory value) public view returns(uint[] memory) {
+        string[] memory params = new string[](6);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
+        params[4] = field;
+        params[5] = value;
         bytes memory rlpBytes =  params.query_ids();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         uint[] memory ids = new uint[](ls.length);
@@ -462,17 +494,19 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  查询所有id
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
    *     返回值为rpl 编码的uint数组, 类型为uint[]
     ***************************************************************************/
-    function query_all_ids(string memory accessToken, string memory appCode, string memory tableName) public view returns(uint[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
+    function query_all_ids(string memory encode, string memory accessToken, string memory appCode, string memory tableName) public view returns(uint[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
         bytes memory rlpBytes =  params.query_all_ids();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         uint[] memory ids = new uint[](ls.length);
@@ -484,15 +518,17 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  查询所有库分组
-    *  参数说明 ： src 包含2个参数
+    *  参数说明 ： src 包含3个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值为rpl 编码的字符串数组
     ***************************************************************************/
-    function query_all_groups(string memory accessToken, string memory appCode) public view returns(string[] memory) {
-        string[] memory params = new string[](2);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_all_groups(string memory encode, string memory accessToken, string memory appCode) public view returns(string[] memory) {
+        string[] memory params = new string[](3);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         bytes memory rlpBytes =  params.query_all_groups();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory groups = new string[](ls.length);
@@ -504,17 +540,19 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  查询库分组详情
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     groupName : 组名
     *     返回值为rpl 编码的字符串数组
     ***************************************************************************/
-    function query_group_info(string memory accessToken, string memory appCode, string memory groupName) public view returns(string[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = groupName;
+    function query_group_info(string memory encode, string memory accessToken, string memory appCode, string memory groupName) public view returns(string[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = groupName;
         bytes memory rlpBytes =  params.query_group_info();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory groupMembers = new string[](ls.length);
@@ -526,16 +564,18 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  查询表索引
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     返回值为rpl 编码的字符串数组
     ***************************************************************************/
-    function query_index(string memory accessToken, string memory appCode, string memory tableName) public view returns(string[] memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
+    function query_index(string memory encode, string memory accessToken, string memory appCode, string memory tableName) public view returns(string[] memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
         bytes memory rlpBytes =  params.query_index();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         string[] memory indexFields = new string[](ls.length);
@@ -547,7 +587,8 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  标准查询器
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     querierObj : 表名
@@ -565,11 +606,12 @@ contract DBChainQueryLib {
         emit LogUint( x);
     }
 
-    function query_std_querier(string memory accessToken, string memory appCode, string memory querierObj) public view returns(string memory, string memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = querierObj;
+    function query_std_querier(string memory encode, string memory accessToken, string memory appCode, string memory querierObj) public view returns(string memory, string memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = querierObj;
 
         bytes memory rlpBytes =  params.query_std_querier();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
@@ -593,7 +635,8 @@ contract DBChainQueryLib {
     /***************************************************************************
     *  函数功能 ：  标准查询器
     *  函数说明 ：  功能与query_std_querier一样， 区别是querierObj没有bse64编码
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     querierObj : 表名
@@ -605,12 +648,13 @@ contract DBChainQueryLib {
     *     因为每张表都有4个系统字段， id, created_at, created_by, txhash， 如果您建的表有两个字段：name，age. 那么返回数据的会把字段进行升序排序
     *   所以返回后的值的顺序依次为：age,created_at, created_by,id,name, txhash.
     ***************************************************************************/
-    function query_std_querier_without_base64(string memory accessToken, string memory appCode) public view returns(string memory, string memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
+    function query_std_querier_without_base64(string memory encode, string memory accessToken, string memory appCode) public view returns(string memory, string memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
         string memory querierObj = '[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]';
-        params[2] = querierObj;
+        params[3] = querierObj;
 
         bytes memory rlpBytes =  params.query_std_querier_without_base64();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
@@ -633,18 +677,20 @@ contract DBChainQueryLib {
 
     /***************************************************************************
     *  函数功能 ：  查询表关联
-    *  参数说明 ： src 包含3个参数
+    *  参数说明 ： src 包含4个参数
+    *     encode ：返回值的编码方式""json" 或者 "rlp",示例给出的是encode为rlp的解码示例，json的返回值一般用于直接返回
     *     accessToken :
     *     appCode :
     *     tableName : 表名
     *     返回值为rpl 编码的字符串数组, 类型为string[][]
     *     每一个string[]值依次为 AssociationMode, AssociationTable, ForeignKey, Method
     ***************************************************************************/
-    function query_table_association(string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory, string memory, string memory, string memory) {
-        string[] memory params = new string[](3);
-        params[0] = accessToken;
-        params[1] = appCode;
-        params[2] = tableName;
+    function query_table_association(string memory encode, string memory accessToken, string memory appCode, string memory tableName) public view returns(string memory, string memory, string memory, string memory) {
+        string[] memory params = new string[](4);
+        params[0] = encode;
+        params[1] = accessToken;
+        params[2] = appCode;
+        params[3] = tableName;
         bytes memory rlpBytes =  params.query_table_association();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         if (ls.length == 0) {
