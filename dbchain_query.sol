@@ -298,7 +298,54 @@ contract DBChainQueryLib {
         }
     }
 
-    //TODO 增加一个不需要base64编码的查询方法
+
+    /***************************************************************************
+    *  函数功能 ： 查询数据库自定义查询器调用
+    *  函数说明 ： 功能与query_call_custom_querier一样，区别是querierParams没有base64编码
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     querierName : 查询器名称
+    *     querierParams  : 查询器参数
+    *     假设已经注册了自定义查询器如下：
+    *       function customQuery(tableName, queryString)
+    *           queryTable = jsonStringToMap(queryString)
+    *           queryData = findRowsBy(tableName,queryTable)
+    *           return queryData:data()
+    *       end
+    *       调用时 ： querierName 为 customQuery
+    *       参数为 ： ["worker","{\"name\":\"boa\"}"]
+    *     返回值为rpl 编码的字符串数组, 类型为string[][]
+    *     我们可以定义一个结构体来获取返回的数据，接头体就是表的字段
+    *     因为每张表都有4个系统字段， id, created_at, created_by, txhash， 如果您建的表有两个字段：name，age. 那么返回数据的会把字段进行升序排序
+    *   所以返回后的值的顺序依次为：age,created_at, created_by,id,name, txhash.
+    ***************************************************************************/
+    function query_call_custom_querier_without_base64(string memory accessToken, string memory appCode, string memory querierName) public view returns(string memory, string memory){
+        string[] memory params = new string[](4);
+
+        params[0] = accessToken;
+        params[1] = appCode;
+        params[2] = querierName;
+        string memory querierParams = '["worker","{\\\"name\\\":\\\"boa\\\"}"] ';
+        params[3] = querierParams;
+        bytes memory rlpBytes =  params.query_call_custom_querier_without_base64();
+        RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
+        queryTest[] memory values = new queryTest[] (ls.length);
+        for (uint i = 0; i < ls.length; i++) {
+            queryTest memory temp;
+            RLPReader.RLPItem memory item =  ls[i];
+            temp.age = string(item.toList()[0].toBytes());
+            temp.created_at = string(item.toList()[1].toBytes());
+            temp.created_by = string(item.toList()[2].toBytes());
+            temp.id = string(item.toList()[3].toBytes());
+            temp.name = string(item.toList()[4].toBytes());
+            temp.txhash = string(item.toList()[5].toBytes());
+            values[i] = temp;
+        }
+        if (ls.length != 0 ) {
+            return (values[0].age, values[0].name);
+        }
+    }
 
     /***************************************************************************
     *  函数功能 ： 查询字段属性
@@ -525,6 +572,47 @@ contract DBChainQueryLib {
         params[2] = querierObj;
 
         bytes memory rlpBytes =  params.query_std_querier();
+        RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
+        queryTest[] memory values = new queryTest[] (ls.length);
+        for (uint i = 0; i < ls.length; i++) {
+            queryTest memory temp;
+            RLPReader.RLPItem[] memory item =  ls[i].toList();
+            temp.age = string(item[0].toBytes());
+            temp.created_at = string(item[1].toBytes());
+            temp.created_by = string(item[2].toBytes());
+            temp.id = string(item[3].toBytes());
+            temp.name = string(item[4].toBytes());
+            temp.txhash = string(item[5].toBytes());
+            values[i] = temp;
+        }
+        if (ls.length != 0) {
+            return (values[0].age, values[0].name);
+        }
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  标准查询器
+    *  函数说明 ：  功能与query_std_querier一样， 区别是querierObj没有bse64编码
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     querierObj : 表名
+    *     querierObj 示例：
+    *       查询条件 ：[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]
+    *
+    *     返回值为rpl 编码的字符串数组, 类型为string[][]
+    *     我们可以定义一个结构体来获取返回的数据，接头体就是表的字段
+    *     因为每张表都有4个系统字段， id, created_at, created_by, txhash， 如果您建的表有两个字段：name，age. 那么返回数据的会把字段进行升序排序
+    *   所以返回后的值的顺序依次为：age,created_at, created_by,id,name, txhash.
+    ***************************************************************************/
+    function query_std_querier_without_base64(string memory accessToken, string memory appCode) public view returns(string memory, string memory) {
+        string[] memory params = new string[](3);
+        params[0] = accessToken;
+        params[1] = appCode;
+        string memory querierObj = '[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]';
+        params[2] = querierObj;
+
+        bytes memory rlpBytes =  params.query_std_querier_without_base64();
         RLPReader.RLPItem[] memory ls = rlpBytes.toRlpItem().toList();
         queryTest[] memory values = new queryTest[] (ls.length);
         for (uint i = 0; i < ls.length; i++) {

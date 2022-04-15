@@ -151,6 +151,21 @@ library dbchain_query {
     }
 
     /***************************************************************************
+    *  函数功能 ： 查询数据库自定义查询器调用
+    *  函数说明 ： 作用与query_call_custom_querier相同,区别是params没有base64编码
+    *  参数说明 ： src 包含4个参数
+    *     accessToken :
+    *     appCode :
+    *     querierName : 查询器名称
+    *     params  : 查询器参数
+    *     TODO 参数示例
+    ***************************************************************************/
+    function query_call_custom_querier_without_base64(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 4, "95");
+        return res;
+    }
+
+    /***************************************************************************
     *  函数功能 ： 查询字段属性
     *  参数说明 ： src 包含4个参数
     *     accessToken :
@@ -262,6 +277,22 @@ library dbchain_query {
     ***************************************************************************/
     function query_std_querier(string[] memory src) public view returns(bytes memory) {
         bytes memory res = execute_query(src, 3, "92");
+        return res;
+    }
+
+    /***************************************************************************
+    *  函数功能 ：  标准查询器
+    *  函数说明 ：  功能与query_std_querier一样，区别是querierObj没有base64编码
+    *  参数说明 ： src 包含3个参数
+    *     accessToken :
+    *     appCode :
+    *     querierObj : 表名
+    *     querierObj 示例：
+    *       查询条件 ：[{"method":"table","table":"student"},{"method":"where","field":"id","value":"1","operator":"="}]
+    *       base64编码 ： W3sibWV0aG9kIjoidGFibGUiLCJ0YWJsZSI6InN0dWRlbnQifSx7Im1ldGhvZCI6IndoZXJlIiwiZmllbGQiOiJpZCIsInZhbHVlIjoiMSIsIm9wZXJhdG9yIjoiPSJ9XQ==
+    ***************************************************************************/
+    function query_std_querier_without_base64(string[] memory src) public view returns(bytes memory) {
+        bytes memory res = execute_query(src, 3, "96");
         return res;
     }
 
