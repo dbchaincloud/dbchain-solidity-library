@@ -1,9 +1,11 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "./utils.sol";
+import "./bytes.sol";
 
 library dbchain_query {
     using utils for string[];
+    using BytesLib for bytes;
 
 
     /****************************************************************************
@@ -356,6 +358,9 @@ library dbchain_query {
                 invalid()
             }
         }
-        return h;
+        bytes memory dataLen = h.slice(0,32);
+        uint256 stopIndex = dataLen.toUint256(0);
+        bytes memory res = h.slice(32, stopIndex);
+        return res;
     }
 }
