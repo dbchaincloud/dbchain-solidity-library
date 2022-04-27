@@ -541,20 +541,21 @@ contract DBChainLib {
 
     /***************************************************************************
     *  函数功能 ： 插入数据
-    *  函数说明 ： 方便在函数内部调用插入函数
-    *  参数说明 ： src 包含3个参数
+    *  函数说明 ： 当字段或者值本身包含字符串的时候，不要调用该方法
+    *  参数说明 ： src 包含4个参数
     *     appCode : 数据库code, 创建数据库时唯一的code
     *     tableName : 当前表名
-    *     fields : 值
-    *  fields 示例 :
-    *  插入一条数据 name字段的值为bob, 先用json编码 {"name":"bob"}
+    *     keys : 字段名，用逗号分割
+    *     values : 字段对应的值，用逗号分割
     ***************************************************************************/
     function insert_row_without_base64(string memory appCode, string memory tableName) public returns (bytes32){
-        string[] memory params = new string[](3);
+        string[] memory params = new string[](4);
         params[0] = appCode;
         params[1] = tableName;
-        string memory fields = '{"name":"bob"}';
-        params[2] = fields;
+        string memory keys = 'name,age';
+        string memory values = 'xj,20';
+        params[2] = keys;
+        params[3] = values;
         return params.insert_row_without_base64();
     }
 

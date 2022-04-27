@@ -410,15 +410,15 @@ library  dbchain {
 
     /***************************************************************************
     *  函数功能 ： 插入数据
-    *  函数说明 ：
-    *  参数说明 ： src 包含3个参数
+    *  函数说明 ： 当字段或者值本身包含字符串的时候，不要调用该方法
+    *  参数说明 ： src 包含4个参数
     *     appCode : 数据库code, 创建数据库时唯一的code
     *     tableName : 当前表名
-    *     fields : 值
-    *   TODO fields 示例
+    *     keys : 字段名，用逗号分割
+    *     values : 字段对应的值，用逗号分割
     ***************************************************************************/
     function insert_row_without_base64(string[] memory  src) public returns (bytes32){
-        bytes32[1] memory res = execute_tx(src, 3, "2D");
+        bytes32[1] memory res = execute_tx(src, 4, "2D");
         return res[0];
     }
 
