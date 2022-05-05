@@ -123,4 +123,42 @@ library utils {
 
         return tempBytes;
     }
+
+    //将多个字符串拼接新的字符串
+    function strCatsWithoutLen(string[] memory params) internal pure returns (bytes memory) {
+        bytes memory tempBytes;
+        if (params.length < 1 ) {
+            return tempBytes;
+        }
+
+        tempBytes = params[0];
+        if (params.length == 1) {
+            return tempBytes;
+        }
+
+        for (uint i = 1; i < params.length; i++) {
+            tempBytes = concat(tempBytes, bytes(params[i]));
+        }
+
+        return tempBytes;
+    }
+
+    function strJoin(string[] memory params, string memory sep) internal pure returns (bytes memory) {
+        bytes memory tempBytes;
+        if (params.length < 1 ) {
+            return tempBytes;
+        }
+
+        tempBytes = params[0];
+        if (params.length == 1) {
+            return tempBytes;
+        }
+
+        for (uint i = 1; i < params.length; i++) {
+            tempBytes = concat(tempBytes, bytes(sep));
+            tempBytes = concat(tempBytes, bytes(params[i]));
+        }
+
+        return tempBytes;
+    }
 }
