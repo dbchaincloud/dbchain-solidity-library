@@ -16,13 +16,15 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodTable(string memory tableName) public pure returns(string memory) {
+    function table(string memory tableName) public pure returns(string[] memory) {
         string[] memory data = new string[](3);
         data[0] = '{ "method" : "table", "table" : "';
         data[1] = tableName;
         data[2] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory conditions = new string[](1);
+        conditions[0] = string(bz);
+        return conditions;
     }
 
     /************************************************************************
@@ -32,7 +34,7 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodWhere(string memory fieldName, string memory operator, string memory value) public pure returns(string memory) {
+    function where(string[] memory conditions, string memory fieldName, string memory operator, string memory value) public pure returns(string[] memory) {
         string[] memory data = new string[](7);
         data[0] = '{"method" : "where", "field" : "';
         data[1] = fieldName;
@@ -42,7 +44,8 @@ library stdQueryUtils {
         data[5] = value;
         data[6] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
     /************************************************************************
@@ -52,13 +55,14 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodSelect(string memory fields) public pure returns(string memory) {
+    function select(string[] memory conditions, string memory fields) public pure returns(string[] memory) {
         string[] memory data = new string[](3);
         data[0] = '{"method" : "select", "fields" : "';
         data[1] = fields;
         data[2] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
     /************************************************************************
@@ -68,13 +72,14 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodFind(string memory id) public pure returns(string memory) {
+    function find(string[] memory conditions, string memory id) public pure returns(string[] memory) {
         string[] memory data = new string[](3);
-        data[0] = '{"method" : "select", "find" : "';
+        data[0] = '{"method" : "find", "id" : "';
         data[1] = id;
         data[2] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
     /************************************************************************
@@ -84,13 +89,14 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodFirstOrLast(string memory method) public pure returns(string memory) {
+    function firstOrLast(string[] memory conditions, string memory method) public pure returns(string[] memory) {
         string[] memory data = new string[](3);
         data[0] = '{"method" : "';
         data[1] = method;
         data[2] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
     /************************************************************************
@@ -100,7 +106,7 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodOffsetOrLimit(string memory method, string memory value) public pure returns(string memory) {
+    function offsetOrLimit(string[] memory conditions, string memory method, string memory value) public pure returns(string[] memory) {
         string[] memory data = new string[](5);
         data[0] = '{"method" : "';
         data[1] = method;
@@ -108,7 +114,8 @@ library stdQueryUtils {
         data[3] = value;
         data[4] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
     /************************************************************************
@@ -118,15 +125,16 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodOrder(string memory fieldName, string memory order) public pure returns(string memory) {
+    function order(string[] memory conditions, string memory fieldName, string memory sort) public pure returns(string[] memory) {
         string[] memory data = new string[](5);
         data[0] = '{"method" : "order", "field" : "';
         data[1] = fieldName;
         data[2] = '", "direction" : "';
-        data[3] = order;
+        data[3] = sort;
         data[4] = '"}';
         bytes memory bz = data.strCatsWithoutLen();
-        return string(bz);
+        string[] memory newConditions = stringArrayAppend(conditions, string(bz));
+        return newConditions;
     }
 
 
@@ -137,13 +145,23 @@ library stdQueryUtils {
     *
     ************************************************************************/
 
-    function methodObj(string[] memory elems) public pure returns(string memory) {
+    function obj(string[] memory elems) public pure returns(string memory) {
         string[] memory data = new string[](3);
         data[0] = '[';
         data[2] = ']';
         bytes memory bz = elems.strJoin(",");
         data[1] = string(bz);
-        bytes memory obj = data.strCatsWithoutLen();
-        return string(obj);
+        bytes memory queryObj = data.strCatsWithoutLen();
+        return string(queryObj);
+    }
+
+    // help function
+    function stringArrayAppend(string[] memory src, string memory newString) public pure returns(string[] memory) {
+        string[] memory result = new string[](src.length + 1);
+        for (uint256 i = 0; i < src.length; i++) {
+            result[i] = src[i];
+        }
+        result[src.length] = newString;
+        return result;
     }
 }
